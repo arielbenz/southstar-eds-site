@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "components": [
+      "hero",
+      "accordion",
+      "promo-banner",
+      "plans",
+      "savings-calculator",
+      "my-account"
+    ]
+  },
+  {
+    "id": "hero-section",
+    "components": [
+      "hero"
+    ]
+  },
+  {
+    "id": "accordion",
+    "components": [
+      "accordion-item"
+    ]
+  },
+  {
+    "id": "plans",
+    "components": [
+      "plan"
+    ]
+  }
+]

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SouthStar - Sidekick Library</title>
+    <style>
+      /* ---- Brand CSS variables for the library tables ---- */
+      :root {
+        --sk-color-primary: #e87722;
+        --sk-color-primary-dark: #c45e00;
+        --sk-color-secondary: #003087;
+        --sk-color-secondary-light: #e8eef8;
+        --sk-color-surface: #f5f5f5;
+        --sk-color-border: #e0e0e0;
+        --sk-color-text: #1a1a1a;
+        --sk-font: 'Source Sans Pro', system-ui, sans-serif;
+
+        /* Sidekick Library table overrides */
+        --sk-table-header-bg: var(--sk-color-secondary);
+        --sk-table-header-color: #ffffff;
+        --sk-table-row-hover: var(--sk-color-secondary-light);
+        --sk-cta-bg: var(--sk-color-primary);
+        --sk-cta-hover: var(--sk-color-primary-dark);
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: var(--sk-font);
+        background-color: var(--sk-color-surface);
+      }
+
+      sidekick-library {
+        display: block;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <sidekick-library></sidekick-library>
+
+    <script>
+      // The sidekick-library component requires config.base to be the URL (or
+      // relative path) of the library.json file — it fetches that URL directly.
+      document.querySelector('sidekick-library').config = {
+        base: '/tools/sidekick/library.json',
+      };
+
+      // Workaround for a bug in the sidekick-library blocks plugin:
+      // its PreviewBlock listener reads e.details.path but CustomEvent uses .detail
+      Object.defineProperty(CustomEvent.prototype, 'details', {
+        get() {
+          return this.detail;
+        },
+        configurable: true,
+      });
+
+      // Deduplicate rapid window.open calls: index.js dispatches PreviewBlock
+      // (blocks.js opens it) then ALSO calls window.open — causing two tabs.
+      // Suppress any open to the same URL within 100 ms.
+      const _origOpen = window.open.bind(window);
+      let _lastPreview = null;
+      window.open = (url, target, features) => {
+        if (url && url === _lastPreview) return null;
+        _lastPreview = url;
+        setTimeout(() => {
+          _lastPreview = null;
+        }, 100);
+        return _origOpen(url, target, features);
+      };
+    </script>
+
+    <script
+      type="module"
+      src="https://www.aem.live/tools/sidekick/library/index.js"
+    ></script>
+  </body>
+</html>

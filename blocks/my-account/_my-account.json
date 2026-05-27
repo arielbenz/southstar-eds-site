@@ -1,0 +1,39 @@
+{
+  "eds": {
+    "structure": "key-value",
+    "fields": [
+      { "name": "redirectUrl", "type": "text" },
+      { "name": "errorMessage", "type": "text" }
+    ]
+  },
+  "mock": [
+    {
+      "_variant": "authenticated",
+      "_label": "Usuario autenticado",
+      "_meta": {
+        "prime-token": "mock-token-local-dev",
+        "user-id": "user-local-001"
+      },
+      "redirectUrl": "/login",
+      "errorMessage": "We couldn't load your account. Please try again."
+    },
+    {
+      "_variant": "unauthenticated",
+      "_label": "No autenticado",
+      "_meta": {},
+      "redirectUrl": "/login",
+      "errorMessage": "We couldn't load your account. Please try again."
+    },
+    {
+      "_variant": "error",
+      "_label": "Error de API",
+      "_meta": {
+        "prime-token": "mock-token-local-dev",
+        "user-id": "user-local-001"
+      },
+      "_queryParams": { "error": "true" },
+      "redirectUrl": "/login",
+      "errorMessage": "We couldn't load your account. Please try again."
+    }
+  ]
+}

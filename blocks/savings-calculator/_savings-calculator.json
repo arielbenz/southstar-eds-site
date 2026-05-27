@@ -1,0 +1,37 @@
+{
+  "eds": {
+    "structure": "key-value",
+    "fields": [
+      {
+        "name": "defaultUsageCCF",
+        "key": "default-usage-ccf",
+        "type": "number"
+      },
+      {
+        "name": "currentRateCents",
+        "key": "current-rate-cents",
+        "type": "number"
+      },
+      { "name": "ourRateCents", "key": "our-rate-cents", "type": "number" },
+      { "name": "ctaUrl", "key": "cta-url", "type": "link" }
+    ]
+  },
+  "mock": [
+    {
+      "_variant": "columbia-gas",
+      "_label": "Columbia Gas comparison",
+      "defaultUsageCCF": "50",
+      "currentRateCents": "14.8",
+      "ourRateCents": "12.4",
+      "ctaUrl": "/enroll?plan=fixed-12&utility=columbia"
+    },
+    {
+      "_variant": "dominion",
+      "_label": "Dominion comparison",
+      "defaultUsageCCF": "75",
+      "currentRateCents": "15.2",
+      "ourRateCents": "12.4",
+      "ctaUrl": "/enroll?plan=fixed-12&utility=dominion"
+    }
+  ]
+}
