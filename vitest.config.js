@@ -10,6 +10,9 @@ export default defineConfig({
     include: [
       'blocks/**/__tests__/**/*.test.{js,jsx}',
       'scripts/**/__tests__/**/*.test.{js,jsx}',
+      'tools/**/__tests__/**/*.test.{js,jsx}',
+      'tests/unit/**/*.test.{js,jsx}',
+      'tests/integration/**/*.test.{js,jsx}',
     ],
     coverage: {
       provider: 'v8',

@@ -1,4 +1,4 @@
 mountpoints:
   /:
-    url: https://da.live/source/arielbenz/ohio-natural-gas-eds
+    url: https://content.da.live/arielbenz/southstar-eds-site
     type: markup

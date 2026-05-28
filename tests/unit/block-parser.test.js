@@ -2,7 +2,7 @@
  * block-parser.test.js — 13 unit tests for block-parser.js
  * Uses jsdom via the vitest environment (environment: 'jsdom')
  */
-import { parseBlock, extractValue } from '../block-parser.js';
+import { parseBlock, extractValue } from '../../scripts/utils/block-parser.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 

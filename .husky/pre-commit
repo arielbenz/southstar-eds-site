@@ -1,2 +1,1 @@
 node scripts/build-models.js
-git add component-models.json component-definitions.json component-filters.json

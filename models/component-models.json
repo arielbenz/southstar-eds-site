@@ -147,34 +147,6 @@
     ]
   },
   {
-    "id": "savings-calculator",
-    "fields": [
-      {
-        "component": "number",
-        "name": "default-usage-ccf",
-        "label": "Default Usage (CCF)",
-        "valueType": "number"
-      },
-      {
-        "component": "number",
-        "name": "current-rate-cents",
-        "label": "Current Market Rate (¢/CCF)",
-        "valueType": "number"
-      },
-      {
-        "component": "number",
-        "name": "our-rate-cents",
-        "label": "Our Rate (¢/CCF)",
-        "valueType": "number"
-      },
-      {
-        "component": "aem-content",
-        "name": "cta-url",
-        "label": "CTA URL"
-      }
-    ]
-  },
-  {
     "id": "my-account",
     "fields": [
       {

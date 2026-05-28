@@ -508,7 +508,7 @@ npm run storybook        # Dev server at http://localhost:6006
 npm run build-storybook  # Static build
 ```
 
-Storybook is used for **React-based blocks only** — the blocks that export a React component tree rather than a plain `decorate()` function (e.g. `plans`, `savings-calculator`, `my-account`). It provides isolated, fast iteration on component UI without needing EDS or a running preview server.
+Storybook is used for **React-based blocks only** — the blocks that export a React component tree rather than a plain `decorate()` function (e.g. `plans`, `my-account`). It provides isolated, fast iteration on component UI without needing EDS or a running preview server.
 
 ### Story files
 

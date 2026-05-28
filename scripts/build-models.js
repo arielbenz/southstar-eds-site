@@ -1,56 +1,102 @@
 /**
  * scripts/build-models.js
  *
- * Reads the files in models/, validates them as JSON, and copies them to the
- * project root (where EDS / Universal Editor expects them).
+ * Assembles component-definitions.json, component-models.json, and
+ * component-filters.json from per-block _*.json source files.
+ *
+ * Source of truth:
+ *   - blocks/**\/_*.json        → each block owns its definitions/models/filters
+ *   - models/shared.json        → page-level items (section model, main filter)
+ *
+ * Only keys `definitions`, `models`, and `filters` are read; `eds` and `mock`
+ * are tooling-only and ignored.
  *
  * Usage: node scripts/build-models.js
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
-import { resolve, join, basename } from 'path';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { resolve, join } from 'path';
 import { fileURLToPath } from 'url';
+import { glob } from 'glob';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
-const MODELS_DIR = join(ROOT, 'models');
+const BLOCKS_DIR = join(ROOT, 'blocks');
+const SHARED_FILE = join(ROOT, 'models', 'shared.json');
 
-const MODEL_FILES = [
-  'component-models.json',
-  'component-definitions.json',
-  'component-filters.json',
-];
+/** Normalise a value to an array (single object or existing array). */
+function toArray(val) {
+  if (!val) return [];
+  return Array.isArray(val) ? val : [val];
+}
+
+const allDefinitions = [];
+const allModels = [];
+const allFilters = [];
+
+console.log('🔧  Building content models from _block.json files...\n');
+
+// ── 1. Collect from each block ──────────────────────────────────────────────
+const blockJsonPaths = await glob('blocks/**/_*.json', { cwd: ROOT });
+blockJsonPaths.sort();
 
 let processed = 0;
 let errors = 0;
 
-console.log('🔧  Building content models...\n');
-
-for (const fileName of MODEL_FILES) {
-  const srcPath = join(MODELS_DIR, fileName);
-  const destPath = join(ROOT, fileName);
-
+for (const rel of blockJsonPaths) {
+  const absPath = join(ROOT, rel);
   try {
-    const raw = readFileSync(srcPath, 'utf-8');
-    // Validate JSON
-    const parsed = JSON.parse(raw);
-    const count = Array.isArray(parsed)
-      ? parsed.length
-      : Object.keys(parsed).length;
-
-    // Copy to root (pretty-printed for readability)
-    writeFileSync(destPath, JSON.stringify(parsed, null, 2) + '\n', 'utf-8');
-    console.log(`  ✅  ${fileName} → ${destPath} (${count} entries)`);
-    processed += 1;
+    const data = JSON.parse(readFileSync(absPath, 'utf-8'));
+    const defs = toArray(data.definitions);
+    const models = toArray(data.models);
+    const filters = toArray(data.filters);
+    allDefinitions.push(...defs);
+    allModels.push(...models);
+    allFilters.push(...filters);
+    console.log(
+      `  ✅  ${rel.padEnd(45)} defs:${defs.length}  models:${models.length}  filters:${filters.length}`
+    );
+    processed++;
   } catch (err) {
-    // Log the error with the full path and continue with remaining files
-    console.error(`  ❌  Error en ${srcPath}`);
-    console.error(`      ${err.message}`);
-    errors += 1;
+    console.error(`  ❌  ${rel}: ${err.message}`);
+    errors++;
   }
 }
 
-console.log(`\n📊  Summary: ${processed} files processed, ${errors} errors.`);
+// ── 2. Collect page-level shared items ──────────────────────────────────────
+if (existsSync(SHARED_FILE)) {
+  try {
+    const shared = JSON.parse(readFileSync(SHARED_FILE, 'utf-8'));
+    allDefinitions.push(...toArray(shared.definitions));
+    allModels.push(...toArray(shared.models));
+    allFilters.push(...toArray(shared.filters));
+    console.log(`  ✅  models/shared.json (page-level items)`);
+    processed++;
+  } catch (err) {
+    console.error(`  ❌  models/shared.json: ${err.message}`);
+    errors++;
+  }
+}
+
+// ── 3. Write output files ────────────────────────────────────────────────────
+const outputs = [
+  { file: 'component-definitions.json', data: allDefinitions },
+  { file: 'component-models.json',      data: allModels },
+  { file: 'component-filters.json',     data: allFilters },
+];
+
+console.log('');
+for (const { file, data } of outputs) {
+  try {
+    writeFileSync(join(ROOT, file), JSON.stringify(data, null, 2) + '\n', 'utf-8');
+    console.log(`  📄  ${file} (${data.length} entries)`);
+  } catch (err) {
+    console.error(`  ❌  Could not write ${file}: ${err.message}`);
+    errors++;
+  }
+}
+
+console.log(`\n📊  Summary: ${processed} source files processed, ${errors} errors.`);
 
 if (errors > 0) {
   process.exit(1);

@@ -10,7 +10,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { JSDOM } from 'jsdom';
-import { parseBlock } from '../block-parser.js';
+import { parseBlock } from '../../scripts/utils/block-parser.js';
 
 // ─── Setup: parsear el fixture una sola vez ───────────────────────────────────
 
@@ -28,9 +28,6 @@ function loadSchema(relPath) {
 
 const accordionSchema = loadSchema('blocks/accordion/_accordion.json');
 const plansSchema = loadSchema('blocks/plans/_plans.json');
-const savingsSchema = loadSchema(
-  'blocks/savings-calculator/_savings-calculator.json',
-);
 const promoBannerSchema = loadSchema('blocks/promo-banner/_promo-banner.json');
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -115,40 +112,6 @@ describe('BlockParser — integration with real fixture', () => {
       for (const plan of result.items) {
         expect(plan.featuresHtml).toContain('<ul>');
       }
-    });
-  });
-
-  // ── savings-calculator ─────────────────────────────────────────────────────
-  describe('savings-calculator', () => {
-    let result;
-    beforeAll(() => {
-      const el = document.querySelector('.savings-calculator');
-      result = parseBlock(el, savingsSchema);
-    });
-
-    test('result is not null or undefined', () => {
-      expect(result).toBeDefined();
-      expect(result).not.toBeNull();
-    });
-
-    test('defaultUsageCCF is a number', () => {
-      expect(typeof result.defaultUsageCCF).toBe('number');
-      expect(result.defaultUsageCCF).toBe(80);
-    });
-
-    test('currentRateCents is a number', () => {
-      expect(typeof result.currentRateCents).toBe('number');
-      expect(result.currentRateCents).toBe(72.4);
-    });
-
-    test('ourRateCents is a number', () => {
-      expect(typeof result.ourRateCents).toBe('number');
-      expect(result.ourRateCents).toBe(52.9);
-    });
-
-    test('ctaUrl is a string containing /enroll', () => {
-      expect(typeof result.ctaUrl).toBe('string');
-      expect(result.ctaUrl).toContain('/enroll');
     });
   });
 

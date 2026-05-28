@@ -1,4 +1,4 @@
-import { parseConfigPage } from '../config-page-loader.js';
+import { parseConfigPage } from '../../scripts/utils/config-page-loader.js';
 
 const FIXTURE_HTML = `
 <main>
