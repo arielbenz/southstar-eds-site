@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="Description" content="SouthStar Sidekick Library" />
+    <meta name="robots" content="noindex" />
+    <base href="/" />
     <title>SouthStar - Sidekick Library</title>
     <style>
       /* ---- Brand CSS variables for the library tables ---- */
@@ -16,12 +19,15 @@
         --sk-color-text: #1a1a1a;
         --sk-font: 'Source Sans Pro', system-ui, sans-serif;
 
-        /* Sidekick Library table overrides */
-        --sk-table-header-bg: var(--sk-color-secondary);
-        --sk-table-header-color: #ffffff;
-        --sk-table-row-hover: var(--sk-color-secondary-light);
-        --sk-cta-bg: var(--sk-color-primary);
-        --sk-cta-hover: var(--sk-color-primary-dark);
+        /* Sidekick Library table header colors (official variable names per docs) */
+        --sk-block-table-background-color: #003087;
+        --sk-block-table-foreground-color: #ffffff;
+
+        --sk-section-metadata-table-background-color: #e87722;
+        --sk-section-metadata-table-foreground-color: #ffffff;
+
+        --sk-metadata-table-background-color: #1a1a1a;
+        --sk-metadata-table-foreground-color: #ffffff;
       }
 
       html,
@@ -37,17 +43,34 @@
         display: block;
         height: 100%;
       }
+
+      /* Hide the AEM sidekick if it loads inside the library page */
+      helix-sidekick {
+        display: none;
+      }
     </style>
   </head>
   <body>
-    <sidekick-library></sidekick-library>
-
+    <script
+      type="module"
+      src="https://www.aem.live/tools/sidekick/library/index.js"
+    ></script>
     <script>
-      // The sidekick-library component requires config.base to be the URL (or
-      // relative path) of the library.json file — it fetches that URL directly.
-      document.querySelector('sidekick-library').config = {
+      const library = document.createElement('sidekick-library');
+      library.config = {
         base: '/tools/sidekick/library.json',
+        plugins: {
+          blocks: {
+            // Responsive preview viewports matching common device breakpoints
+            viewPorts: [
+              { width: '480px',  label: 'Mobile',  icon: 'device-phone'   },
+              { width: '768px',  label: 'Tablet',  icon: 'device-tablet'  },
+              { width: '100%',   label: 'Desktop', icon: 'device-desktop', default: true },
+            ],
+          },
+        },
       };
+      document.body.prepend(library);
 
       // Workaround for a bug in the sidekick-library blocks plugin:
       // its PreviewBlock listener reads e.details.path but CustomEvent uses .detail
@@ -72,10 +95,5 @@
         return _origOpen(url, target, features);
       };
     </script>
-
-    <script
-      type="module"
-      src="https://www.aem.live/tools/sidekick/library/index.js"
-    ></script>
   </body>
 </html>
