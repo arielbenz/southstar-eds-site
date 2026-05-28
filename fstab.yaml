@@ -1,4 +1,4 @@
 mountpoints:
   /:
-    url: https://content.da.live/arielbenz/ohio-natural-gas
+    url: https://da.live/source/arielbenz/ohio-natural-gas-eds
     type: markup
