@@ -47,6 +47,7 @@ Served from `tests/fixtures/config/`. Add `.html` files here for blocks that loa
 a `configPath` via EDS config page convention (`.plain.html` responses).
 
 Example:
+
 ```
 tests/fixtures/config/
   enrollment.html    → served at /config/enrollment.plain.html

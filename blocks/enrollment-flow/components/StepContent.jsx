@@ -92,11 +92,7 @@ export default function StepContent({ step, config, formData, onChange }) {
                   <>
                     {' '}
                     and{' '}
-                    <a
-                      href={config.privacyUrl}
-                      target="_blank"
-                      rel="noopener"
-                    >
+                    <a href={config.privacyUrl} target="_blank" rel="noopener">
                       Privacy Policy
                     </a>
                   </>

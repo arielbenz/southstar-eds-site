@@ -37,7 +37,11 @@
       "id": "accordion",
       "fields": [
         { "component": "text-input", "name": "heading", "label": "Heading" },
-        { "component": "richtext", "name": "description", "label": "Description" }
+        {
+          "component": "richtext",
+          "name": "description",
+          "label": "Description"
+        }
       ]
     },
     {
@@ -48,9 +52,7 @@
       ]
     }
   ],
-  "filters": [
-    { "id": "accordion", "components": ["accordion-item"] }
-  ],
+  "filters": [{ "id": "accordion", "components": ["accordion-item"] }],
   "eds": {
     "structure": "container",
     "headerRows": 1,

@@ -117,9 +117,10 @@ function hasStories(blockName) {
 function renderDashboard(blocks) {
   const ready = blocks.filter((b) => getBlockStatus(b) === 'ready');
   const notReady = blocks.filter((b) => getBlockStatus(b) !== 'ready');
-  const reactBlocks = ready.filter((b) =>
-    existsSync(join(BLOCKS_DIR, b.name, `${b.name}.jsx`)) ||
-    existsSync(join(BLOCKS_DIR, b.name, 'components')),
+  const reactBlocks = ready.filter(
+    (b) =>
+      existsSync(join(BLOCKS_DIR, b.name, `${b.name}.jsx`)) ||
+      existsSync(join(BLOCKS_DIR, b.name, 'components')),
   );
 
   return `<!DOCTYPE html>
@@ -363,7 +364,11 @@ function renderDashboard(blocks) {
         .map((block) => {
           const status = getBlockStatus(block);
           const statusLabel =
-            { 'no-json': 'no _block.json', 'no-schema': 'no eds section', 'no-mock': 'no mock section' }[status] ?? 'incomplete';
+            {
+              'no-json': 'no _block.json',
+              'no-schema': 'no eds section',
+              'no-mock': 'no mock section',
+            }[status] ?? 'incomplete';
           return `<div class="card disabled" data-block="${block.name}">
           <h2>${block.name}</h2>
           <p>&nbsp;</p>
@@ -1005,7 +1010,9 @@ async function start() {
     runTests().then((r) => {
       if (r) {
         const icon = r.failed > 0 ? '✗' : '✓';
-        console.log(`  ${icon} Tests: ${r.passed} passed, ${r.failed} failed (${r.total} total)`);
+        console.log(
+          `  ${icon} Tests: ${r.passed} passed, ${r.failed} failed (${r.total} total)`,
+        );
       }
     });
   });

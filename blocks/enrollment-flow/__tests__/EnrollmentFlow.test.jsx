@@ -85,7 +85,9 @@ describe('EnrollmentFlow', () => {
 
   test('el boton dice Continue en pasos intermedios', () => {
     render(<EnrollmentFlow configPath="/config/enrollment" />);
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Continue' }),
+    ).toBeInTheDocument();
   });
 
   test('el boton dice Submit en el ultimo paso', () => {

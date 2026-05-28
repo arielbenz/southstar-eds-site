@@ -54,7 +54,7 @@ for (const rel of blockJsonPaths) {
     allModels.push(...models);
     allFilters.push(...filters);
     console.log(
-      `  ✅  ${rel.padEnd(45)} defs:${defs.length}  models:${models.length}  filters:${filters.length}`
+      `  ✅  ${rel.padEnd(45)} defs:${defs.length}  models:${models.length}  filters:${filters.length}`,
     );
     processed++;
   } catch (err) {
@@ -81,14 +81,18 @@ if (existsSync(SHARED_FILE)) {
 // ── 3. Write output files ────────────────────────────────────────────────────
 const outputs = [
   { file: 'component-definitions.json', data: allDefinitions },
-  { file: 'component-models.json',      data: allModels },
-  { file: 'component-filters.json',     data: allFilters },
+  { file: 'component-models.json', data: allModels },
+  { file: 'component-filters.json', data: allFilters },
 ];
 
 console.log('');
 for (const { file, data } of outputs) {
   try {
-    writeFileSync(join(ROOT, file), JSON.stringify(data, null, 2) + '\n', 'utf-8');
+    writeFileSync(
+      join(ROOT, file),
+      JSON.stringify(data, null, 2) + '\n',
+      'utf-8',
+    );
     console.log(`  📄  ${file} (${data.length} entries)`);
   } catch (err) {
     console.error(`  ❌  Could not write ${file}: ${err.message}`);
@@ -96,7 +100,9 @@ for (const { file, data } of outputs) {
   }
 }
 
-console.log(`\n📊  Summary: ${processed} source files processed, ${errors} errors.`);
+console.log(
+  `\n📊  Summary: ${processed} source files processed, ${errors} errors.`,
+);
 
 if (errors > 0) {
   process.exit(1);

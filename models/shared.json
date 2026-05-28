@@ -21,7 +21,14 @@
   "filters": [
     {
       "id": "main",
-      "components": ["hero", "accordion", "promo-banner", "plans", "my-account", "enrollment-flow"]
+      "components": [
+        "hero",
+        "accordion",
+        "promo-banner",
+        "plans",
+        "my-account",
+        "enrollment-flow"
+      ]
     }
   ]
 }

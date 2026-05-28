@@ -21,12 +21,13 @@ export default function EnrollmentConfirmation({ formData = {}, config = {} }) {
           </svg>
         </div>
 
-        <h1 className="enrollment-flow__confirmation-title">You&rsquo;re enrolled!</h1>
+        <h1 className="enrollment-flow__confirmation-title">
+          You&rsquo;re enrolled!
+        </h1>
 
         {formData.email && (
           <p className="enrollment-flow__confirmation-message">
-            A confirmation has been sent to{' '}
-            <strong>{formData.email}</strong>.
+            A confirmation has been sent to <strong>{formData.email}</strong>.
           </p>
         )}
 

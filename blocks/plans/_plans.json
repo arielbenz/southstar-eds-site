@@ -36,23 +36,47 @@
     {
       "id": "plans",
       "fields": [
-        { "component": "text-input", "name": "heading", "label": "Section Heading" }
+        {
+          "component": "text-input",
+          "name": "heading",
+          "label": "Section Heading"
+        }
       ]
     },
     {
       "id": "plan",
       "fields": [
-        { "component": "text-input", "name": "plan-name", "label": "Plan Name" },
-        { "component": "number", "name": "rate", "label": "Rate (¢/CCF)", "valueType": "number" },
-        { "component": "number", "name": "term", "label": "Term (months)", "valueType": "number" },
-        { "component": "richtext", "name": "features", "label": "Features List" },
-        { "component": "boolean", "name": "featured", "label": "Featured Plan?" }
+        {
+          "component": "text-input",
+          "name": "plan-name",
+          "label": "Plan Name"
+        },
+        {
+          "component": "number",
+          "name": "rate",
+          "label": "Rate (¢/CCF)",
+          "valueType": "number"
+        },
+        {
+          "component": "number",
+          "name": "term",
+          "label": "Term (months)",
+          "valueType": "number"
+        },
+        {
+          "component": "richtext",
+          "name": "features",
+          "label": "Features List"
+        },
+        {
+          "component": "boolean",
+          "name": "featured",
+          "label": "Featured Plan?"
+        }
       ]
     }
   ],
-  "filters": [
-    { "id": "plans", "components": ["plan"] }
-  ],
+  "filters": [{ "id": "plans", "components": ["plan"] }],
   "eds": {
     "structure": "container",
     "headerRows": 0,

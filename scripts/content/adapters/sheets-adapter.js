@@ -14,7 +14,8 @@ export class SheetsAdapter extends BaseContentAdapter {
    */
   constructor({ baseUrl } = {}) {
     super();
-    this._baseUrl = baseUrl ?? (typeof window !== 'undefined' ? window.location.origin : '');
+    this._baseUrl =
+      baseUrl ?? (typeof window !== 'undefined' ? window.location.origin : '');
   }
 
   async fetchCollection(path) {

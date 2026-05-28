@@ -17,7 +17,7 @@ export class MockAdapter extends BaseContentAdapter {
   async fetchCollection(path) {
     const data = this._mocks[path];
     if (!data) return [];
-    return Array.isArray(data) ? data : data.data ?? [];
+    return Array.isArray(data) ? data : (data.data ?? []);
   }
 
   async fetchItem(path) {

@@ -28,9 +28,15 @@ export function useCollection(path) {
     setState({ data: [], loading: true, error: null });
     adapter
       .fetchCollection(path)
-      .then((data) => { if (!cancelled) setState({ data, loading: false, error: null }); })
-      .catch((error) => { if (!cancelled) setState({ data: [], loading: false, error }); });
-    return () => { cancelled = true; };
+      .then((data) => {
+        if (!cancelled) setState({ data, loading: false, error: null });
+      })
+      .catch((error) => {
+        if (!cancelled) setState({ data: [], loading: false, error });
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [path]);
 
   return state;
@@ -42,16 +48,26 @@ export function useCollection(path) {
  * @returns {{ data: object|null, loading: boolean, error: Error|null }}
  */
 export function useItem(path) {
-  const [state, setState] = useState({ data: null, loading: true, error: null });
+  const [state, setState] = useState({
+    data: null,
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
     let cancelled = false;
     setState({ data: null, loading: true, error: null });
     adapter
       .fetchItem(path)
-      .then((data) => { if (!cancelled) setState({ data, loading: false, error: null }); })
-      .catch((error) => { if (!cancelled) setState({ data: null, loading: false, error }); });
-    return () => { cancelled = true; };
+      .then((data) => {
+        if (!cancelled) setState({ data, loading: false, error: null });
+      })
+      .catch((error) => {
+        if (!cancelled) setState({ data: null, loading: false, error });
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [path]);
 
   return state;
@@ -70,9 +86,15 @@ export function useFragment(path) {
     setState({ html: '', loading: true, error: null });
     adapter
       .fetchFragment(path)
-      .then((html) => { if (!cancelled) setState({ html, loading: false, error: null }); })
-      .catch((error) => { if (!cancelled) setState({ html: '', loading: false, error }); });
-    return () => { cancelled = true; };
+      .then((html) => {
+        if (!cancelled) setState({ html, loading: false, error: null });
+      })
+      .catch((error) => {
+        if (!cancelled) setState({ html: '', loading: false, error });
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [path]);
 
   return state;

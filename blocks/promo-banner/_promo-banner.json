@@ -23,7 +23,11 @@
       "fields": [
         { "component": "text-input", "name": "title", "label": "Banner Title" },
         { "component": "richtext", "name": "body", "label": "Body Text" },
-        { "component": "text-input", "name": "cta-text", "label": "CTA Button Text" },
+        {
+          "component": "text-input",
+          "name": "cta-text",
+          "label": "CTA Button Text"
+        },
         { "component": "aem-content", "name": "cta-url", "label": "CTA URL" },
         {
           "component": "select",

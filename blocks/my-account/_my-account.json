@@ -21,7 +21,11 @@
     {
       "id": "my-account",
       "fields": [
-        { "component": "text-input", "name": "heading", "label": "Block Heading (optional)" }
+        {
+          "component": "text-input",
+          "name": "heading",
+          "label": "Block Heading (optional)"
+        }
       ]
     }
   ],

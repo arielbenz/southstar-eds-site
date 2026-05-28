@@ -21,29 +21,41 @@ describe('useEnrollmentConfig', () => {
 
   test('devuelve loading=true inicialmente', () => {
     loaderMocks.loadConfigPage.mockReturnValue(new Promise(() => {}));
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
     expect(result.current.loading).toBe(true);
   });
 
   test('devuelve la config cuando loadConfigPage resuelve', async () => {
     loaderMocks.loadConfigPage.mockResolvedValue({ title: 'Enroll in Ohio' });
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
-    await waitFor(() => expect(result.current.config).toEqual({ title: 'Enroll in Ohio' }));
+    await waitFor(() =>
+      expect(result.current.config).toEqual({ title: 'Enroll in Ohio' }),
+    );
     expect(result.current.error).toBeNull();
   });
 
   test('devuelve error cuando loadConfigPage rechaza', async () => {
     loaderMocks.loadConfigPage.mockRejectedValue(new Error('API Error'));
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
-    await waitFor(() => expect(result.current.error?.message).toBe('API Error'));
+    await waitFor(() =>
+      expect(result.current.error?.message).toBe('API Error'),
+    );
     expect(result.current.config).toBeNull();
   });
 
   test('en modo mock devuelve el mockConfig sin llamar a fetch', async () => {
     window.history.replaceState({}, '', '/?mock=true');
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.config).toEqual(mockEnrollmentConfig);
@@ -52,7 +64,9 @@ describe('useEnrollmentConfig', () => {
 
   test('en modo mock con ?error=true devuelve error', async () => {
     window.history.replaceState({}, '', '/?mock=true&error=true');
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error?.message).toBe('Mock enrollment config error');
@@ -61,14 +75,18 @@ describe('useEnrollmentConfig', () => {
 
   test('loading pasa a false despues de resolver', async () => {
     loaderMocks.loadConfigPage.mockResolvedValue({ title: 'Enroll in Ohio' });
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
     await waitFor(() => expect(result.current.loading).toBe(false));
   });
 
   test('loading pasa a false despues de rechazar', async () => {
     loaderMocks.loadConfigPage.mockRejectedValue(new Error('API Error'));
-    const { result } = renderHook(() => useEnrollmentConfig('/config/enrollment'));
+    const { result } = renderHook(() =>
+      useEnrollmentConfig('/config/enrollment'),
+    );
 
     await waitFor(() => expect(result.current.loading).toBe(false));
   });

@@ -21,7 +21,12 @@
     {
       "id": "hero",
       "fields": [
-        { "component": "reference", "name": "image", "label": "Hero Image", "multi": false },
+        {
+          "component": "reference",
+          "name": "image",
+          "label": "Hero Image",
+          "multi": false
+        },
         { "component": "richtext", "name": "content", "label": "Hero Content" },
         {
           "component": "select",
@@ -35,9 +40,7 @@
       ]
     }
   ],
-  "filters": [
-    { "id": "hero-section", "components": ["hero"] }
-  ],
+  "filters": [{ "id": "hero-section", "components": ["hero"] }],
   "eds": {
     "structure": "container",
     "headerRows": 1,

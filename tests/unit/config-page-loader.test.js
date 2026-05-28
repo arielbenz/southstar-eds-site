@@ -31,7 +31,9 @@ const FIXTURE_HTML = `
 
 describe('parseConfigPage', () => {
   test('extrae strings correctamente', () => {
-    expect(parseConfigPage(FIXTURE_HTML).title).toBe('Enroll in Ohio Natural Gas');
+    expect(parseConfigPage(FIXTURE_HTML).title).toBe(
+      'Enroll in Ohio Natural Gas',
+    );
   });
 
   test('convierte a camelCase simple', () => {
@@ -72,7 +74,9 @@ describe('parseConfigPage', () => {
   });
 
   test('ignora parrafos sin dos puntos', () => {
-    const result = parseConfigPage('<main><p>Este es un parrafo normal</p></main>');
+    const result = parseConfigPage(
+      '<main><p>Este es un parrafo normal</p></main>',
+    );
     expect(result).toEqual({});
   });
 
