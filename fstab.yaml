@@ -2,3 +2,4 @@ mountpoints:
   /:
     url: https://da.live/source/arielbenz/southstar-eds-site
     type: markup
+
