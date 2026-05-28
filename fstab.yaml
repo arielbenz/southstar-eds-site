@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: https://content.da.live/arielbenz/southstar-eds-site
+    url: https://da.live/source/arielbenz/southstar-eds-site
     type: markup
 
