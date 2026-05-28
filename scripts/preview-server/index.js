@@ -279,7 +279,14 @@ function renderContainerPage(blockName, blockHTML) {
   <link rel="stylesheet" href="/styles/styles.css">
   <link rel="stylesheet" href="/styles/lazy-styles.css">
   <link rel="stylesheet" href="/blocks/${blockName}/${blockName}.css">
-  <script type="module" src="/scripts/scripts.js"></script>
+  <!-- Required by @vitejs/plugin-react in dev mode -->
+  <script type="module">
+    import RefreshRuntime from '/@react-refresh'
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => {}
+    window.$RefreshSig$ = () => () => {}
+    window.__vite_plugin_react_preamble_installed__ = true
+  </script>
 </head>
 <body>
   <header></header>
@@ -289,6 +296,33 @@ function renderContainerPage(blockName, blockHTML) {
     </div>
   </main>
   <footer></footer>
+
+  <script>window.__PREVIEW_SERVER = true</script>
+  <script type="module">
+    // Force ?mock=true so React blocks use their internal mock data
+    const url = new URL(window.location)
+    if (!url.searchParams.has('mock')) {
+      url.searchParams.set('mock', 'true')
+      window.history.replaceState({}, '', url)
+    }
+
+    // Decorate the block using the same approach as the preview page
+    const blockEl = document.querySelector('[data-block-name="${blockName}"]')
+    if (blockEl) {
+      try {
+        const mod = await import('/blocks/${blockName}/${blockName}.js')
+        if (typeof mod.default === 'function') {
+          await mod.default(blockEl)
+        }
+      } catch (err) {
+        console.error('[Sidekick] Error in decorate():', err)
+        blockEl.insertAdjacentHTML('beforebegin',
+          '<div style="background:#FFEBEE;border-left:4px solid #C62828;padding:1rem;font-family:monospace;font-size:0.75rem">' +
+          '<strong>Error en decorate()</strong><pre>' + err.message + '</pre></div>'
+        )
+      }
+    }
+  </script>
 </body>
 </html>`;
 }
@@ -583,6 +617,23 @@ async function start() {
     root: ROOT,
     logLevel: 'warn',
     plugins: [resolveBundleToJsx],
+  });
+
+  // Serve config page fixtures for local testing.
+  // In production the EDS CDN serves these .plain.html pages.
+  app.get('/config/:name\\.plain\\.html', (req, res) => {
+    const fixturePath = join(
+      ROOT,
+      'tests/local/assets/config',
+      `${req.params.name}.html`,
+    );
+
+    try {
+      const html = readFileSync(fixturePath, 'utf-8');
+      res.type('html').send(html);
+    } catch {
+      res.status(404).send(`Config fixture not found: ${req.params.name}`);
+    }
   });
 
   app.use(vite.middlewares);

@@ -197,3 +197,15 @@ export function parseBlock(blockEl, schema) {
       throw new Error(`parseBlock: unknown structure "${schema.structure}"`);
   }
 }
+
+/**
+ * Reads a block using either a raw schema or a full _block.json object.
+ *
+ * @param {Element} blockEl
+ * @param {Object} schemaOrBlockJson
+ * @returns {Object}
+ */
+export function readBlock(blockEl, schemaOrBlockJson) {
+  const schema = schemaOrBlockJson?.eds ?? schemaOrBlockJson;
+  return parseBlock(blockEl, schema);
+}
